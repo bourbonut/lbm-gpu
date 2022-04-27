@@ -1,5 +1,6 @@
 # Directory of results
 results/
+tests/picklefiles/
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
