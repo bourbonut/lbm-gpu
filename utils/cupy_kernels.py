@@ -2,9 +2,11 @@ from cupyx import jit
 from cupy import float64
 from math import log, floor, ceil
 
+SM = 22
+
 
 def dispatch(m, n):
-    r = min(floor(log((m * n) // 216, 2)), 10)
+    r = min(floor(log((m * n) // SM, 2)), 10)
     inf, sup = (m, n) if m < n else (n, m)
     c = log(sup, 2) - log(inf, 2)
     a, b = min(10, int(floor(r / 2 - c))), min(10, int(ceil(r / 2 + c)))

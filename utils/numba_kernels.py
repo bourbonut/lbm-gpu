@@ -1,9 +1,11 @@
 from numba import cuda, float64
 from math import log, floor, ceil
 
+SM = 22
+
 
 def dispatch(m, n):
-    r = min(floor(log((m * n) // 216, 2)), 10)
+    r = min(floor(log((m * n) // SM, 2)), 10)
     inf, sup = (m, n) if m < n else (n, m)
     c = log(sup, 2) - log(inf, 2)
     a, b = min(10, int(floor(r / 2 - c))), min(10, int(ceil(r / 2 + c)))
@@ -48,7 +50,7 @@ def macroscopic(fin, v, rho, u, nx, ny):
             trho += fvalue
             tu0 += cv[i, 0] * fvalue
             tu1 += cv[i, 1] * fvalue
-        
+
         rho[row, col] = trho
         u[0, row, col] = tu0 / trho
         u[1, row, col] = tu1 / trho
