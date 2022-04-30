@@ -9,6 +9,9 @@ from pathlib import Path
 
 PATH = Path().absolute() / "tests" / "picklefiles"
 
+if not (PATH.exists()):
+    PATH.mkdir()
+
 obstacle = np.fromfunction(partial(np_obstacle_fun, cx=cx, cy=cy, r=r), (nx, ny))
 vel = np.fromfunction(partial(np_inivel, ly=ly, uLB=uLB), (2, nx, ny))
 rho = np.full((nx, ny), 2)
