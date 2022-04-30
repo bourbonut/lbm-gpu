@@ -59,7 +59,7 @@ def main():
         if time % 10 == 0 and time != 0:
             print(round(100 * time / maxIter, 3), "%")
             u = d_u.get()
-            arr = np.sqrt(u[0] ** 2 + u[1] ** 2).transpose()  # .astype(np.uint8)
+            arr = np.sqrt(u[0] ** 2 + u[1] ** 2).transpose()
             new_arr = ((arr / arr.max()) * 255).astype("uint8")
             img_colorized = cv2.applyColorMap(new_arr, cmapy.cmap("plasma"))
             out.write(img_colorized)

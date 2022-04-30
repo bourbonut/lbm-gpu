@@ -4,9 +4,6 @@ from numba import int64
 import cv2
 import cmapy
 
-# import matplotlib.pyplot as plt
-# from matplotlib import cm
-
 from utils.numba_kernels import *
 from utils.parameters import *
 from utils.numpy_functions import np_obstacle_fun, np_inivel
@@ -63,13 +60,10 @@ def main():
         if time % 10 == 0 and time != 0:
             print(round(100 * time / maxIter, 3), "%")
             u = d_u.copy_to_host()
-            arr = np.sqrt(u[0] ** 2 + u[1] ** 2).transpose()  # .astype(np.uint8)
+            arr = np.sqrt(u[0] ** 2 + u[1] ** 2).transpose()
             new_arr = ((arr / arr.max()) * 255).astype("uint8")
             img_colorized = cv2.applyColorMap(new_arr, cmapy.cmap("plasma"))
             out.write(img_colorized)
-            # plt.clf()
-            # plt.imshow(np.sqrt(u[0] ** 2 + u[1] ** 2).transpose(), cmap=cm.Reds)
-            # plt.savefig("./images/vel.{0:04d}.png".format(time // 10))
 
     out.release()
 
