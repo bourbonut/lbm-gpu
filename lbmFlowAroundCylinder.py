@@ -22,17 +22,17 @@ import numpy as np
 
 # import cunumeric as np
 
-# import matplotlib.pyplot as plt
-# from matplotlib import cm
+import matplotlib.pyplot as plt
+from matplotlib import cm
 
-from numba import *
+# from numba import *
 
-from time import perf_counter as pf
+# from time import perf_counter as pf
 
 ###### Flow definition #################################################
-maxIter = 20  # 200000  # Total number of time iterations.
+maxIter = 15 * 5 * 10  # 200000  # Total number of time iterations.
 Re = 150.0  # Reynolds number.
-nx, ny = 2048, 2160  # Numer of lattice nodes.
+nx, ny = 1024 // 4, 22 * 32 // 4  # Numer of lattice nodes.
 ly = ny - 1  # Height of the domain in lattice units.
 cx, cy, r = nx // 4, ny // 2, ny // 9  # Coordinates of the cylinder.
 uLB = 0.04  # Velocity in lattice units.
@@ -114,7 +114,7 @@ def main():
     fin = equilibrium(1, vel)
 
     ###### Main time loop ########
-    for time in range(maxIter):
+    for time in range(maxIter + 1):
 
         # if time == 1:
         #     start = pf()
@@ -154,10 +154,11 @@ def main():
             fin[i, :, :] = np.roll(np.roll(fout[i, :, :], v[i, 0], axis=0), v[i, 1], axis=1)
 
         # Visualization of the velocity.
-        # if time % 100 == 0:
-        #     plt.clf()
-        #     plt.imshow(np.sqrt(u[0] ** 2 + u[1] ** 2).transpose(), cmap=cm.Reds)
-        #     plt.savefig("vel.{0:04d}.png".format(time // 100))
+        if time % 10 == 0 and time != 0:
+            print(round(100 * time / maxIter, 3), "%")
+            plt.clf()
+            plt.imshow(np.sqrt(u[0] ** 2 + u[1] ** 2).transpose(), cmap=cm.Reds)
+            plt.savefig("./ref/vel.{0:04d}.png".format(time // 10))
     # print(pf() - start)
 
 

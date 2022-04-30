@@ -70,12 +70,8 @@ def inflow(u, vel, rho, fin, ny):
     if col < ny:
         u[0, 0, col] = vel[0, 0, col]
         u[1, 0, col] = vel[1, 0, col]
-        t2 = float64(0.0)
-        for i in (3, 4, 5):
-            t2 += fin[i, 0, col]
-        t3 = float64(0.0)
-        for j in (6, 7, 8):
-            t3 += fin[j, 0, col]
+        t2 = fin[3, 0, col] + fin[4, 0, col] + fin[5, 0, col]
+        t3 = fin[6, 0, col] + fin[7, 0, col] + fin[8, 0, col]
         rho[0, col] = (t2 + 2 * t3) / (1 - u[0, 0, col])
 
 
@@ -84,7 +80,7 @@ def update_fin(fin, feq, ny):
     col = cuda.grid(1)
     if col < ny:
         for i in range(3):
-            fin[i, 0, col] += fin[8 - i, 0, col] - feq[8 - i, 0, col]
+            fin[i, 0, col] = feq[i, 0, col] + fin[8 - i, 0, col] - feq[8 - i, 0, col]
 
 
 @cuda.jit
@@ -113,6 +109,12 @@ def streaming_step(fin, fout, v, nx, ny):
         for k in range(9):
             i = row + v[k, 0]
             j = col + v[k, 1]
-            i = 0 if i == nx else (nx - 1 if i == 0 else i)
-            j = 0 if j == ny else (ny - 1 if j == 0 else j)
-            fin[k, row, col] = fout[k, i, j]
+            if i == nx:
+                i = 0
+            elif i == -1:
+                i = nx - 1
+            if j == ny:
+                j = 0
+            elif j == -1:
+                j = ny - 1
+            fin[k, i, j] = fout[k, row, col]

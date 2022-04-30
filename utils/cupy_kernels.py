@@ -78,7 +78,7 @@ def update_fin(fin, feq, ny):
     col = jit.grid(1)
     if col < ny:
         for i in range(3):
-            fin[i, 0, col] += fin[8 - i, 0, col] - feq[8 - i, 0, col]
+            fin[i, 0, col] = feq[i, 0, col] + fin[8 - i, 0, col] - feq[8 - i, 0, col]
 
 
 @jit.rawkernel()
@@ -108,10 +108,10 @@ def streaming_step(fin, fout, v, nx, ny):
             j = col + v[k, 1]
             if i == nx:
                 i = 0
-            elif i == 0:
+            elif i == -1:
                 i = nx - 1
             if j == ny:
                 j = 0
-            elif j == 0:
+            elif j == -1:
                 j = ny - 1
-            fin[k, row, col] = fout[k, i, j]
+            fin[k, i, j] = fout[k, row, col]
