@@ -1,9 +1,9 @@
 import numpy as np
 
 ###### Flow definition #################################################
-maxIter = 4  # 200000  # Total number of time iterations.
+maxIter = 8 * 15 * 5 * 10  # 200000  # Total number of time iterations.
 Re = 150.0  # Reynolds number.
-nx, ny = 1048, 22 * 512  # Number of lattice nodes.
+nx, ny = 1024, 22 * 32  # Number of lattice nodes.
 ly = ny - 1  # Height of the domain in lattice units.
 cx, cy, r = nx // 4, ny // 2, ny // 9  # Coordinates of the cylinder.
 uLB = 0.04  # Velocity in lattice units.
