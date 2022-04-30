@@ -44,8 +44,8 @@ def testing(name=""):
 
 
 @testing(name="Equilibrium")
-def test_equilibrium():
-    rho, u, v, t = pickle.load(open(PATH / "equilibrium-test.pkl", "rb"))
+def test_equilibrium(i):
+    rho, u, v, t = pickle.load(open(PATH / "equilibrium-test-{}.pkl".format(i), "rb"))
     feq = cuda.device_array((9, nx, ny))
 
     d_rho, d_u, d_v, d_t = map(cuda.to_device, (rho, u, v, t))
@@ -58,8 +58,8 @@ def test_equilibrium():
 
 
 @testing(name="Outflow")
-def test_outflow():
-    fin, col3 = pickle.load(open(PATH / "outflow-test.pkl", "rb"))
+def test_outflow(i):
+    fin, col3 = pickle.load(open(PATH / "outflow-test-{}.pkl".format(i), "rb"))
 
     d_fin = cuda.to_device(fin)
 
@@ -72,8 +72,8 @@ def test_outflow():
 
 
 @testing(name="Macroscopic")
-def test_macroscopic():
-    fin, v = pickle.load(open(PATH / "macroscopic-test.pkl", "rb"))
+def test_macroscopic(i):
+    fin, v = pickle.load(open(PATH / "macroscopic-test-{}.pkl".format(i), "rb"))
     u = cuda.device_array((2, nx, ny))
     rho = cuda.device_array((nx, ny))
 
@@ -87,8 +87,10 @@ def test_macroscopic():
 
 
 @testing(name="Inflow")
-def test_inflow():
-    u, vel, rho, fin, col2, col3 = pickle.load(open(PATH / "inflow-test.pkl", "rb"))
+def test_inflow(i):
+    u, vel, rho, fin, col2, col3 = pickle.load(
+        open(PATH / "inflow-test-{}.pkl".format(i), "rb")
+    )
 
     threadsperblock, blockspergrid = dispatch1D(ny)
     d_u, d_vel, d_rho, d_fin = map(cuda.to_device, (u, vel, rho, fin))
@@ -101,8 +103,8 @@ def test_inflow():
 
 
 @testing(name="Update fin")
-def test_updatefin():
-    fin, feq = pickle.load(open(PATH / "updatefin-test.pkl", "rb"))
+def test_updatefin(i):
+    fin, feq = pickle.load(open(PATH / "updatefin-test-{}.pkl".format(i), "rb"))
 
     d_fin, d_feq = map(cuda.to_device, (fin, feq))
 
@@ -115,8 +117,8 @@ def test_updatefin():
 
 
 @testing(name="Collision")
-def test_collision():
-    fin, feq, omega = pickle.load(open(PATH / "collision-test.pkl", "rb"))
+def test_collision(i):
+    fin, feq, omega = pickle.load(open(PATH / "collision-test-{}.pkl".format(i), "rb"))
     fout = cuda.device_array((9, nx, ny))
 
     threadsperblock, blockspergrid = dispatch(nx, ny)
@@ -129,8 +131,8 @@ def test_collision():
 
 
 @testing(name="Bounce back")
-def test_bounce_back():
-    fout, feq, obstacle = pickle.load(open(PATH / "bounceback-test.pkl", "rb"))
+def test_bounce_back(i):
+    fout, feq, obstacle = pickle.load(open(PATH / "bounceback-test-{}.pkl".format(i), "rb"))
 
     threadsperblock, blockspergrid = dispatch(nx, ny)
     d_fout, d_feq, d_obstacle = map(cuda.to_device, (fout, feq, obstacle))
@@ -142,8 +144,8 @@ def test_bounce_back():
 
 
 @testing(name="Streaming step")
-def test_streaming_step():
-    fin, fout, v = pickle.load(open(PATH / "bounceback-test.pkl", "rb"))
+def test_streaming_step(i):
+    fin, fout, v = pickle.load(open(PATH / "streaming-test-{}.pkl".format(i), "rb"))
 
     threadsperblock, blockspergrid = dispatch(nx, ny)
     d_fin, d_fout, d_v = map(cuda.to_device, (fin, fout, v))
@@ -154,11 +156,14 @@ def test_streaming_step():
     return [np.linalg.norm(a - b)]
 
 
-test_equilibrium()
-test_outflow()
-test_macroscopic()
-test_inflow()
-test_updatefin()
-test_collision()
-test_bounce_back()
-test_streaming_step()
+maxIter = 10
+for i in range(maxIter):
+    print("Step :", i)
+    test_equilibrium(1 + i * 8)
+    test_outflow(2 + i * 8)
+    test_macroscopic(3 + i * 8)
+    test_inflow(4 + i * 8)
+    test_updatefin(5 + i * 8)
+    test_collision(6 + i * 8)
+    test_bounce_back(7 + i * 8)
+    test_streaming_step(8 + i * 8)
