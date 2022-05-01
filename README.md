@@ -100,6 +100,8 @@ def main():
           new_arr = ((arr / arr.max()) * 255).astype("uint8")
           img_colorized = cv2.applyColorMap(new_arr, cmapy.cmap("plasma"))
           out.write(img_colorized)
+
+    out.release()
 ```
 
 After commenting :
@@ -124,6 +126,8 @@ def main():
     #       new_arr = ((arr / arr.max()) * 255).astype("uint8")
     #       img_colorized = cv2.applyColorMap(new_arr, cmapy.cmap("plasma"))
     #       out.write(img_colorized)
+    #
+    # out.release()
 ```
 Then you can run :
 ```sh
