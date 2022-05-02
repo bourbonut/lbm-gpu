@@ -2,9 +2,11 @@
 
 ![demo](./docs/demo.gif)
 
+This example is fluid flow from left to right over a cylinder in top view.
+
 ## Goal
 
-The goal of this project is to make parallel the Lattice Boltzmann Method on GPU through `numba` and `cupy`
+The goal of this project is to make parallel the Lattice Boltzmann Method on GPU through `numba` and `cupy`.
 
 ## Installation
 
@@ -149,26 +151,26 @@ Note : current parameters in scripts are chosen for the [NVIDIA GEFORCE GTX 1660
 
 ### Numba
 
-| Kernel name | Duration | Compute Throughput | Memory Throughput | L1 Cache Throughput | L2 Cache Throughput |
-| :---------: | :------: | :----------------: | :---------------: | :-----------------: | :-----------------: |
-| macroscopic | 7.67 ms | 6.79 % | 90.08 % | 90.52 % | 51.71 % |
-| equilibrium | 2.34 ms | 19.05 % | 88.02 % | 88.49 % | 58.85 % |
-| streaming_step | 2.18 ms | 57.37 % | 85.31 % | 85.75 % | 83.36 % |
-| collision | 4.56 ms | 6.29 % | 70.96 % | 71.52 % | 64.97 % |
-| bounce_back | 345.09 µs | 16.49 % | 71.9 % | 72.6 % | 65.08 % |
-| inflow | 17.95 µs | 2.03 % | 3.47 % | 0.96 % | 4.09 % |
-| update_fin | 10.37 µs | 0.73 % | 5.26 % | 2.19 % | 7.31 % |
-| outflow | 9.31 µs | 0.72 % | 3.12 % | 2.13 % | 4.58 % |
+|   Kernel name  | Execution Duration | Compute Throughput | Memory Throughput | L1 Cache Throughput | L2 Cache Throughput |
+| :------------: | :----------------: | :----------------: | :---------------: | :-----------------: | :-----------------: |
+|   macroscopic  |       7.67 ms      |       6.79 %       |      90.08 %      |       90.52 %       |       51.71 %       |
+|   equilibrium  |       2.34 ms      |       19.05 %      |      88.02 %      |       88.49 %       |       58.85 %       |
+| streaming_step |       2.18 ms      |       57.37 %      |      85.31 %      |       85.75 %       |       83.36 %       |
+|    collision   |       4.56 ms      |       6.29 %       |      70.96 %      |       71.52 %       |       64.97 %       |
+|   bounce_back  |      345.09 µs     |       16.49 %      |       71.9 %      |        72.6 %       |       65.08 %       |
+|     inflow     |      17.95 µs      |       2.03 %       |       3.47 %      |        0.96 %       |        4.09 %       |
+|   update_fin   |      10.37 µs      |       0.73 %       |       5.26 %      |        2.19 %       |        7.31 %       |
+|     outflow    |       9.31 µs      |       0.72 %       |       3.12 %      |        2.13 %       |        4.58 %       |
 
 ### Cupy
 
-| Kernel name | Duration | Compute Throughput | Memory Throughput | L1 Cache Throughput | L2 Cache Throughput |
-| :---------: | :------: | :----------------: | :---------------: | :-----------------: | :-----------------: |
-| macroscopic | 8.05 ms | 6.79 % | 91.09 % | 91.77 % | 51.15 % |
-| streaming_step | 2.14 ms | 25.37 % | 86.8 % | 87.24 % | 82.5 % |
-| equilibrium | 2.33 ms | 19.11 % | 88.36 % | 88.97 % | 59.31 % |
-| collision | 4.74 ms | 4.9 % | 67.45 % | 67.7 % | 62.43 % |
-| bounce_back | 340.45 µs | 12.2 % | 72.74 % | 73.92 % | 65.38 % |
-| update_fin | 10.56 µs | 0.65 % | 6.21 % | 2.28 % | 7.87 % |
-| inflow | 10.82 µs | 0.82 % | 5.15 % | 1.98 % | 7.88 % |
-| outflow | 9.7 µs | 0.52 % | 3.44 % | 2.26 % | 4.86 % |
+|   Kernel name  | Execution Duration | Compute Throughput | Memory Throughput | L1 Cache Throughput | L2 Cache Throughput |
+| :------------: | :----------------: | :----------------: | :---------------: | :-----------------: | :-----------------: |
+|   macroscopic  |       8.05 ms      |       6.79 %       |      91.09 %      |       91.77 %       |       51.15 %       |
+| streaming_step |       2.14 ms      |       25.37 %      |       86.8 %      |       87.24 %       |        82.5 %       |
+|   equilibrium  |       2.33 ms      |       19.11 %      |      88.36 %      |       88.97 %       |       59.31 %       |
+|    collision   |       4.74 ms      |        4.9 %       |      67.45 %      |        67.7 %       |       62.43 %       |
+|   bounce_back  |      340.45 µs     |       12.2 %       |      72.74 %      |       73.92 %       |       65.38 %       |
+|   update_fin   |      10.56 µs      |       0.65 %       |       6.21 %      |        2.28 %       |        7.87 %       |
+|     inflow     |      10.82 µs      |       0.82 %       |       5.15 %      |        1.98 %       |        7.88 %       |
+|     outflow    |       9.7 µs       |       0.52 %       |       3.44 %      |        2.26 %       |        4.86 %       |
