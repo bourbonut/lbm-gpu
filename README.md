@@ -12,9 +12,9 @@ The goal of this project is to make parallel the Lattice Boltzmann Method on GPU
 
 You need to know your cuda version to install `cupy` correctly.
 My version is `11.6` (you can see it in `setup.py`).
-Create a virtual environment and run the setup file :
+Create a virtual environment and install the requirements :
 ```
-python setup.py install
+pip install -r requirements.txt
 ```
 
 ## Usage
