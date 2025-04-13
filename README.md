@@ -174,3 +174,17 @@ Note : current parameters in scripts are chosen for the [NVIDIA GEFORCE GTX 1660
 |   update_fin   |      10.56 µs      |       0.65 %       |       6.21 %      |        2.28 %       |        7.87 %       |
 |     inflow     |      10.82 µs      |       0.82 %       |       5.15 %      |        1.98 %       |        7.88 %       |
 |     outflow    |       9.7 µs       |       0.52 %       |       3.44 %      |        2.26 %       |        4.86 %       |
+
+
+## Report
+
+The [report](./docs/lattice-bolzmann-method-gpu.pdf) summarizes :
+1. Objective of the project
+2. More details on algorithms implemented
+3. Results of Numba and Cupy experiments
+
+<p align="center">
+    <a href="./docs/lattice-bolzmann-method-gpu.pdf">
+        <img width=300px src="./docs/cover.png"/>
+    </a>
+</p>
